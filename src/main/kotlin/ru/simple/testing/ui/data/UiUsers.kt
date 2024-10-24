@@ -7,4 +7,6 @@ object UiUsers {
     val standardUser: UiUser by lazy { UiUser("standard_user", "secret_sauce") }
     val lockedOutUser: UiUser by lazy { UiUser("locked_out_user", "secret_sauce") }
 
+    @JvmStatic
+    fun standardUser(): List<UiUser> = listOf(standardUser)
 }

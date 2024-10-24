@@ -8,7 +8,7 @@ import io.restassured.specification.RequestSpecification
 import ru.simple.testing.be.dto.Identifiable
 import kotlin.reflect.KClass
 
-abstract class AbstractApiSteps<T : Identifiable>(baseUrl: String, private val tClass: KClass<T>) {
+abstract class AbstractApiSteps<T : Identifiable>(baseUrl: String, private val endpoint: String, private val tClass: KClass<T>) {
 
     protected val api: RequestSpecification by lazy {
         val specs = RequestSpecBuilder().setBaseUri(baseUrl).build()
@@ -18,9 +18,10 @@ abstract class AbstractApiSteps<T : Identifiable>(baseUrl: String, private val t
             .filters(RequestLoggingFilter(), ResponseLoggingFilter())
     }
 
-    fun createPost(dtoForCreate: T): T {
-        return api.body(dtoForCreate).post("/posts").`as`(tClass.java)
+    fun create(dtoForCreate: T): T {
+        return api.body(dtoForCreate).post(endpoint).`as`(tClass.java)
     }
 
-    fun getPost(id: Int): T = api.get("/posts/$id").`as`(tClass.java)
+    fun get(id: Int): T = api.get("$endpoint/$id").`as`(tClass.java)
+
 }

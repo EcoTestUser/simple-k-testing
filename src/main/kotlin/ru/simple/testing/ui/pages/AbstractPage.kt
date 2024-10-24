@@ -1,5 +1,6 @@
 package ru.simple.testing.ui.pages
 
+import com.codeborne.selenide.Configuration
 import com.codeborne.selenide.Selenide
 import com.codeborne.selenide.Selenide.webdriver
 import com.codeborne.selenide.WebDriverConditions.url
@@ -11,6 +12,7 @@ import ru.simple.testing.utils.projectProperties
 import ru.simple.testing.utils.step
 
 
+/** ??? */
 abstract class AbstractPage(val pageUrl: String) {
 
     @Step("Проверяем, что страница '{this.pageUrl}' открыта")
@@ -19,7 +21,9 @@ abstract class AbstractPage(val pageUrl: String) {
     }
 }
 
+/** ??? */
 fun <T : AbstractPage> T.openBy(user: UiUser): T {
+    Configuration.browserVersion = "128.0"
     val url = projectProperties.uiBaseUrl + pageUrl
     return step("Открываем страницу '$url' под пользователем '${user.login}'") {
         Selenide.open(url)
@@ -29,10 +33,8 @@ fun <T : AbstractPage> T.openBy(user: UiUser): T {
     }
 }
 
+/** ??? */
 fun <T : AbstractPage> T.open(): T {
     val url = projectProperties.uiBaseUrl + pageUrl
-    return step("Открываем страницу '$url'") {
-        Selenide.open(url)
-        this
-    }
+    return this.also { step("Открываем страницу '$url'") { Selenide.open(url) } }
 }

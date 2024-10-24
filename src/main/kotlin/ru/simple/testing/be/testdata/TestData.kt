@@ -7,6 +7,6 @@ interface TestData<T : Identifiable> {
     val testDataProvider: () -> List<T>
 
     fun getById(id: Int): T {
-        return testDataProvider().find { it.id == id } ?: throw RuntimeException("Системе не найдена сущность с id = $id")
+        return testDataProvider().find { it.id == id } ?: throw RuntimeException("В тестовых данных не найдена сущность с id = $id")
     }
 }
